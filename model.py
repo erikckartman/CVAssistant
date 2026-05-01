@@ -60,3 +60,47 @@ Job:
     """result = response.json()
     print(result)
     return result"""
+
+def generate_cover_letter(cv_text, job_text, matching_rate):
+    prompt = f"""
+You are a professional career advisor.
+
+Write a concise and professional cover letter based on the CV and job description.
+
+Rules:
+- Max 200-250 words
+- Formal tone
+- Highlight relevant skills
+- No hallucinations
+- Do not mention the matching rate
+- No templates; this should be a completely ready-to-send letter. Use the actual names of the company and the people to whom the letter is addressed. If you don't know their names, address the letter to recruiters or company management.
+
+CV:
+{cv_text[:2000]}
+
+Job:
+{job_text[:2000]}
+
+Matching rate:
+{matching_rate}
+"""
+
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": "llama-3.1-8b-instant",
+        "messages": [
+            {"role": "user", "content": prompt}
+        ]
+    }
+
+    response = requests.post(API_URL, headers=headers, json=data)
+    result = response.json()
+
+    if "choices" not in result:
+        return f"API Error:\n{result}"
+
+    return result["choices"][0]["message"]["content"]

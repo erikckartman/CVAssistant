@@ -1,7 +1,7 @@
 import streamlit as st
 import pdfplumber, re
 
-from model import analyze_cv, extract_text_from_url
+from model import analyze_cv, extract_text_from_url, generate_cover_letter
 
 def extract_text_from_pdf(file):
     text = ""
@@ -29,3 +29,6 @@ if st.button("Analyze"):
         if job:
             result = analyze_cv(cv_text, job)
             st.write(result)
+            cover_letter = generate_cover_letter(cv_text, job, result)
+            st.write("Generated Cover Letter:")
+            st.write(cover_letter)
