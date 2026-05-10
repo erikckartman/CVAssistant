@@ -24,19 +24,32 @@ def extract_text_from_url(url):
         print(f"Error fetching URL: {e}")
         return ""
 
-def analyze_cv(cv_text, job_text):
+def analyze_cv(cv_text, job_text, portfolio_text):
     prompt = f"""
 You are an HR expert.
 
-Analyze this CV and job description.
+Analyze:
+1. CV
+2. Portfolio
+3. Job description
 
 Return:
+
 1. Match score (0-100)
-2. Missing skills
-3. Suggestions
+2. Portfolio evaluation
+3. Missing portfolio projects
+4. Missing technical skills
+5. Suggestions for improving portfolio
+6. Suggestions for improving CV
+
+IMPORTANT:
+Only use information explicitly present in CV or portfolio. Do not make assumptions or add information that is not there.
 
 CV:
 {cv_text}
+
+Portfolio:
+{portfolio_text}
 
 Job:
 {job_text}
