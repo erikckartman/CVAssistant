@@ -24,7 +24,7 @@ def extract_text_from_url(url):
         print(f"Error fetching URL: {e}")
         return ""
 
-def analyze_cv(cv_text, job_text, portfolio_text):
+def analyze_cv(cv_text, job_text, portfolio_text, language):
     prompt = f"""
 You are an HR expert.
 
@@ -41,6 +41,8 @@ Return:
 4. Missing technical skills
 5. Suggestions for improving portfolio
 6. Suggestions for improving CV
+
+IMPORTANT: Answer in {language}.
 
 IMPORTANT:
 Only use information explicitly present in CV or portfolio. Do not make assumptions or add information that is not there.
@@ -74,7 +76,7 @@ Job:
     print(result)
     return result"""
 
-def generate_cover_letter(cv_text, job_text, matching_rate):
+def generate_cover_letter(cv_text, job_text, matching_rate, language):
     prompt = f"""
 You are a professional career advisor.
 
@@ -87,6 +89,8 @@ Rules:
 - No hallucinations
 - Do not mention the matching rate
 - No templates; this should be a completely ready-to-send letter. Use the actual names of the company and the people to whom the letter is addressed. If you don't know their names, address the letter to recruiters or company management.
+
+IMPORTANT: Answer in {language}.
 
 CV:
 {cv_text[:2000]}
